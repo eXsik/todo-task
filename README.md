@@ -1,6 +1,6 @@
 # Laravel Task Management App
 
-Aplikacja zarządzania zadaniami stworzona w Laravel, która umożliwia tworzenie zadań, przypinanie ich do Google Calendar oraz generowanie linków do zadań z tokenem dostępu.
+Aplikacja zarządzania zadaniami stworzona w Laravel, która umożliwia tworzenie zadań oraz generowanie linków do zadań z tokenem dostępu. Aplikacja była tworzona z użyciem Dockera i Lavarel Sail.
 
 ## Spis treści
 
@@ -8,10 +8,7 @@ Aplikacja zarządzania zadaniami stworzona w Laravel, która umożliwia tworzeni
 -   [Instalacja](#instalacja)
 -   [Konfiguracja](#konfiguracja)
 -   [Uruchamianie aplikacji](#uruchamianie-aplikacji)
--   [Testowanie](#testowanie)
 -   [Docker i Sail](#docker-i-sail)
--   [Google Calendar Integration](#google-calendar-integration)
--   [Problemy](#problemy)
 
 ## Wymagania
 
@@ -24,8 +21,8 @@ Aplikacja zarządzania zadaniami stworzona w Laravel, która umożliwia tworzeni
 
 ### 1. Sklonuj repozytorium:
 
-git clone https://github.com/your-username/your-repository.git
-cd your-repository
+git clone https://github.com/eXsik/todo-task.git
+cd todo-task
 
 ### 2. Zainstaluj zależności:
 
