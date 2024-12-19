@@ -15,7 +15,6 @@ Aplikacja zarządzania zadaniami stworzona w Laravel, która umożliwia tworzeni
 -   PHP 8.1 lub nowszy
 -   Composer
 -   Docker (jeśli korzystasz z Laravel Sail)
--   Google Cloud Platform konto (dla integracji z Google Calendar)
 
 ## Instalacja
 
@@ -82,3 +81,12 @@ Po zainstalowaniu zależności i skonfigurowaniu aplikacji, uruchom ją na swoim
 php artisan serve
 
 Aplikacja powinna być dostępna pod adresem: http://localhost:8000.
+
+## Dane do logowania
+
+-   login: test@example.com
+-   password: password
+
+## Wysyłanie maili z przypomnieniem
+
+Komenda: sail artisan tasks:send-expiration-soon-emails
