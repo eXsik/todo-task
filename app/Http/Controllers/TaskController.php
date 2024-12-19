@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use App\Services\TaskAccessTokenService;
 use App\Services\TaskService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,10 +16,12 @@ use Illuminate\View\View;
 class TaskController extends Controller
 {
     protected $taskService;
+    protected $taskAccessTokenService;
 
-    public function __construct(TaskService $taskService)
+    public function __construct(TaskService $taskService, TaskAccessTokenService $taskAccessTokenService)
     {
         $this->taskService = $taskService;
+        $this->taskAccessTokenService = $taskAccessTokenService;
     }
     /**
      * Display a listing of the tasks.
@@ -57,7 +60,10 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        $history = $task->histories()->orderBy('created_at', 'desc')->get() ?? [];
+        $taskAccessToken = $task->accessTokens()->where('expires_at', '>', now())->first();
+
+        return view('tasks.show', ['task' => $task, 'history' => $history, 'taskAccessToken' => $taskAccessToken]);
     }
 
     /**
@@ -89,8 +95,32 @@ class TaskController extends Controller
     {
         Gate::authorize('modify', $task);
 
-        $task->delete();
+        $this->taskService->delete($task);
 
         return redirect()->route('tasks.index')->with('success', 'Zadanie zostało usunięte.');
+    }
+
+    public function generateToken(Task $task)
+    {
+        try {
+            $token = $this->taskAccessTokenService->generateToken($task);
+
+            $link = route('tasks.access', ['task' => $task->id, 'token' => $token->token]);
+
+            return redirect()->route('tasks.show', $task->id)
+                ->with('success', $link);
+        } catch (\Exception $e) {
+            return redirect()->route('tasks.show', $task->id)
+                ->with('error', $e->getMessage());
+        }
+    }
+
+    public function accessTask(Task $task, string $token)
+    {
+        if ($this->taskAccessTokenService->isInvalidToken($task, $token)) {
+            return view('tasks.public', ['task' => $task]);
+        }
+
+        return redirect()->route('tasks.index')->with('error', 'Token jest nieprawidłowy lub wygasł.');
     }
 }

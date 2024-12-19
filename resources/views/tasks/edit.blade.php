@@ -21,19 +21,18 @@
                 <label for="priority" class="block text-sm font-medium text-gray-700 mt-4">Priorytet</label>
                 <select id="priority" name="priority"
                     class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                    <option value="low" @selected($task->priority === 'low')>Niski</option>
-                    <option value="medium" @selected($task->priority === 'medium')>Średni</option>
-                    <option value="high" @selected($task->priority === 'high')>Wysoki</option>
+                    <option value="low" @selected(old('priority', $task->priority === 'low'))>Low</option>
+                    <option value="medium" @selected(old('priority', $task->priority === 'medium'))>Medium</option>
+                    <option value="high" @selected(old('priority', $task->priority === 'high'))>High</option>
                 </select>
 
                 <label for="status" class="block text-sm font-medium text-gray-700 mt-4">Status</label>
                 <select id="status" name="status"
                     class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                    <option value="to-do" @selected($task->status === 'to-do')>To Do</option>
-                    <option value="in-progress" @selected($task->status === 'in-progress')>In Progress</option>
-                    <option value="done" @selected($task->status === 'done')>Done</option>
+                    <option value="to-do" @selected(old('status', $task->status) === 'to do')>To Do</option>
+                    <option value="in-progress" @selected(old('status', $task->status) === 'in progress')>In Progress</option>
+                    <option value="done" @selected(old('status', $task->status) === 'finished')>Finished</option>
                 </select>
-
                 <label for="expiration_date" class="block text-sm font-medium text-gray-700 mt-4">Data zakończenia
                     zadania</label>
                 <input id="expiration_date"
@@ -48,6 +47,4 @@
             </form>
         </div>
     </div>
-
-    <script></script>
 @endsection

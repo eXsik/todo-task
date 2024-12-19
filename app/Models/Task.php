@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Task extends Model
 {
@@ -16,9 +17,9 @@ class Task extends Model
 
     public $incrementing = false;
     public static $priorityLabels = [
-        'low' => 'Niski',
-        'medium' => 'Średni',
-        'high' => 'Wysoki'
+        'low' => 'low',
+        'medium' => 'medium',
+        'high' => 'high'
     ];
     public static $statusLabels = [
         'to-do' => 'to do',
@@ -33,6 +34,16 @@ class Task extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function histories(): HasMany
+    {
+        return $this->hasMany(TaskHistory::class);
+    }
+
+    public function accessTokens(): HasMany
+    {
+        return $this->hasMany(TaskAccessToken::class);
     }
 
     public function scopePriority(Builder $query, $priority): Builder

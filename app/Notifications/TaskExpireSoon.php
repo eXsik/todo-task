@@ -39,7 +39,7 @@ class TaskExpireSoon extends Notification
         return (new MailMessage)
             ->subject('Przypomnienie: Termin na wykonanie Twojego zadania niedługo wygaśnie.')
             ->line('Twoje zadanie "' . $this->task->name . '" jutro wygaśnie.')
-            ->action('Zobacz swoje zadanie', url('/tasks/' . $this->task->id))
+            ->action('Zobacz swoje zadanie', url(route('tasks.show', $this->task->id)))
             ->line('Proszę pamiętaj żeby wykonać swoję zadanie przed upływem terminu.');
     }
 
@@ -51,7 +51,9 @@ class TaskExpireSoon extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'task_id' => $this->task->id,
+            'task_name' => $this->task->name,
+            'expires_at' => $this->task->expiration_date,
         ];
     }
 }
