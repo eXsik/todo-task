@@ -13,21 +13,4 @@ class TaskAccessToken extends Model
     {
         return $this->belongsTo(Task::class);
     }
-
-    // public static function generateToken(Task $task): TaskAccessToken
-    // {
-    //     $token = bin2hex(random_bytes(32));
-    //     $expiresAt = now()->addHours(24);
-
-    //     return self::create([
-    //         'task_id' => $task->id,
-    //         'token' => $token,
-    //         'expires_at' => $expiresAt
-    //     ]);
-    // }
-
-    // public function isExpired(): bool
-    // {
-    //     return now()->greaterThan($this->expires_at);
-    // }
 }
