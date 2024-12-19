@@ -1,66 +1,87 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Task Management App
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikacja zarządzania zadaniami stworzona w Laravel, która umożliwia tworzenie zadań, przypinanie ich do Google Calendar oraz generowanie linków do zadań z tokenem dostępu.
 
-## About Laravel
+## Spis treści
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   [Wymagania](#wymagania)
+-   [Instalacja](#instalacja)
+-   [Konfiguracja](#konfiguracja)
+-   [Uruchamianie aplikacji](#uruchamianie-aplikacji)
+-   [Testowanie](#testowanie)
+-   [Docker i Sail](#docker-i-sail)
+-   [Google Calendar Integration](#google-calendar-integration)
+-   [Problemy](#problemy)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Wymagania
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   PHP 8.1 lub nowszy
+-   Composer
+-   Docker (jeśli korzystasz z Laravel Sail)
+-   Google Cloud Platform konto (dla integracji z Google Calendar)
 
-## Learning Laravel
+## Instalacja
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1. Sklonuj repozytorium:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+git clone https://github.com/your-username/your-repository.git
+cd your-repository
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Zainstaluj zależności:
 
-## Laravel Sponsors
+Jeśli nie korzystasz z Docker (Sail), zainstaluj zależności lokalnie:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+composer install
 
-### Premium Partners
+Jeśli korzystasz z Docker i Laravel Sail, przejdź do sekcji Docker i Sail poniżej.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 3. Skonfiguruj plik .env:
 
-## Contributing
+Skopiuj plik .env.example do .env:
+cp .env.example .env
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Zaktualizuj plik .env w zależności od środowiska, w którym chcesz uruchomić aplikację. Upewnij się, że skonfigurowane są następujące dane:
 
-## Code of Conduct
+-   DB_CONNECTION – połączenie z bazą danych
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. Uruchom migracje i seedy (jeśli są dostępne):
 
-## Security Vulnerabilities
+php artisan migrate --seed
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Laravel Sail
 
-## License
+Jeśli używasz Laravel Sail, musisz mieć zainstalowany Docker na swoim komputerze.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-   Uruchomienie kontenerów:
+
+W terminalu, w katalogu projektu, uruchom:
+
+./vendor/bin/sail up
+
+To uruchomi aplikację na Dockerze, w tym usługi takie jak MySQL, Redis, czy usługi kolejki.
+
+-   Dostęp do aplikacji:
+
+Aplikacja będzie dostępna pod adresem http://localhost, chyba że skonfigurowałeś inny port w pliku .env.
+
+-   Wchodzenie do kontenera aplikacji:
+
+Jeśli chcesz uruchomić dodatkowe komendy Artisan lub Composer, możesz wejść do kontenera aplikacji:
+
+./vendor/bin/sail shell
+
+Teraz jesteś w terminalu kontenera i możesz uruchamiać komendy, takie jak php artisan, composer install, itp.
+
+### Uruchamianie aplikacji
+
+Po zainstalowaniu zależności i skonfigurowaniu aplikacji, uruchom ją na swoim lokalnym serwerze.
+
+-   Jeśli korzystasz z Laravel Sail, uruchom aplikację za pomocą poniższego polecenia:
+
+./vendor/bin/sail up
+
+-   Jeśli korzystasz z lokalnego serwera, uruchom aplikację za pomocą:
+
+php artisan serve
+
+Aplikacja powinna być dostępna pod adresem: http://localhost:8000.
